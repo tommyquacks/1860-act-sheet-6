@@ -1,0 +1,15 @@
+CHIP A62Q2201498887 {
+    IN a, b, c, d;
+    OUT f;
+    
+    PARTS:
+    Not(in=a, out=notA);
+    Not(in=b, out=notB);
+    Not(in=c, out=notC);
+    Not(in=d, out=notD);
+    And(a=notA, b=notB, c=notC, out=term1);        // ¬a ∧ ¬b ∧ ¬c
+    And(a=notA, b=b, c=c, d=notD, out=term2);      // ¬a ∧ b ∧ c ∧ ¬d
+    Or(a=c, b=d, out=orCD);                        // c ∨ d
+    And(a=a, b=notB, c=orCD, out=term3);           // a ∧ ¬b ∧ (c ∨ d)
+    Or(a=term1, b=term2, c=term3, out=f);          // term1 ∨ term2 ∨ term3
+}
